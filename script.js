@@ -21,16 +21,17 @@ function heartX(t) {
 
 function heartY(t) {
   return (
-    13 * Math.cos(t) -
-    5 * Math.cos(2 * t) -
-    2 * Math.cos(3 * t) -
-    Math.cos(4 * t)
+    13 * Math.cos(t)
+    - 5 * Math.cos(2 * t)
+    - 2 * Math.cos(3 * t)
+    - Math.cos(4 * t)
   );
 }
 
-function drawHeart(alpha, scaleExtra) {
+function drawHeart(alpha, extraScale) {
+
   const NUM_STEPS = 120;
-  const SCALE = 18 + scaleExtra;
+  const SCALE = 18 + extraScale;
 
   ctx.save();
 
@@ -48,6 +49,7 @@ function drawHeart(alpha, scaleExtra) {
   const cy = canvas.height / 2;
 
   for (let i = 0; i < NUM_STEPS; i++) {
+
     const t = (Math.PI * 2 * i) / NUM_STEPS + angle;
 
     const x = heartX(t) * SCALE;
@@ -61,12 +63,14 @@ function drawHeart(alpha, scaleExtra) {
   angle += 0.002;
 }
 
-function drawBigText(alpha, scale) {
+function drawText(alpha, scale) {
+
   ctx.save();
 
   ctx.globalAlpha = alpha;
 
   ctx.translate(canvas.width / 2, canvas.height / 2);
+
   ctx.scale(scale, scale);
 
   ctx.fillStyle = "red";
@@ -83,39 +87,42 @@ function drawBigText(alpha, scale) {
 }
 
 function animate() {
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const now = Date.now();
   const elapsed = now - phaseStart;
 
   if (phase === "heart") {
+
     drawHeart(1, 0);
 
     if (elapsed > HEART_TIME) {
+
       phase = "transition";
       phaseStart = now;
     }
-  }
 
-  else if (phase === "transition") {
+  } else if (phase === "transition") {
+
     const progress = elapsed / TRANSITION_TIME;
 
-    const heartAlpha = 1 - progress;
-    const textAlpha = progress;
+    drawHeart(1 - progress, progress * 10);
 
-    drawHeart(heartAlpha, progress * 10);
-    drawBigText(textAlpha, 0.7 + progress * 0.3);
+    drawText(progress, 0.7 + progress * 0.3);
 
     if (elapsed > TRANSITION_TIME) {
+
       phase = "text";
       phaseStart = now;
     }
-  }
 
-  else if (phase === "text") {
-    drawBigText(1, 1);
+  } else if (phase === "text") {
+
+    drawText(1, 1);
 
     if (elapsed > TEXT_TIME) {
+
       phase = "heart";
       phaseStart = now;
     }
@@ -127,6 +134,8 @@ function animate() {
 animate();
 
 window.addEventListener("resize", () => {
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+
 });
