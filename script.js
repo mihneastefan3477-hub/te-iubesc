@@ -6,9 +6,9 @@ canvas.height = window.innerHeight;
 
 let angle = 0;
 
-const NUM_STEPS = 200;
-const SCALE = 15;
-const TEXT = "I love you";
+const NUM_STEPS = 120;
+const SCALE = 18;
+const TEXT = "TE IUBESC";
 
 function heartX(t) {
   return 16 * Math.pow(Math.sin(t), 3);
@@ -30,7 +30,7 @@ function draw() {
   const cy = canvas.height / 2;
 
   ctx.fillStyle = "red";
-  ctx.font = "bold 14px Arial";
+  ctx.font = "bold 22px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
@@ -43,7 +43,7 @@ function draw() {
     ctx.fillText(TEXT, cx + x, cy + y);
   }
 
-  angle += 0.01;
+  angle += 0.002;
 
   requestAnimationFrame(draw);
 }
